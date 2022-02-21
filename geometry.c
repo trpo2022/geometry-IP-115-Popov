@@ -1,15 +1,11 @@
 #include <stdio.h>
 #include <string.h>
-int f(char name[50], int x, int y, int r)
-{
-
-}
 int main()
 {
 	char name[50];
 	int cx, cy, r;
 	printf("enter the name of the shape\n");
-	scanf("%s",&name);
+	scanf("%s",name);
 	if (strcmp(name, "circle") != 0)
 	{
 		printf("incorrect data");
