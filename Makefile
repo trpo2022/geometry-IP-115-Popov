@@ -1,6 +1,8 @@
-geometry: geometry.c
-	gcc -Wall -Werror -o geometry geometry.c
+bin/geometry: obj/area.h
+	gcc -Wall -Werror -o bin/geometry src/geometry-dir/geometry.c
+obj/area.h:
+	gcc -Wall -Werror -o obj/area.h src/lib-geometry/area.c
 clean:
-	rm geometry
+	rm bin/geometry
 run:
-	./geometry
+	./bin/geometry
