@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "obj/area.h"
-#pragma once
+#include "area.h"
 
 int main()
 {
