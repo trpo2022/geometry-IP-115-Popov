@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "area.h"
+#include "../lib-geometry/area.h"
 
 int main()
 {
