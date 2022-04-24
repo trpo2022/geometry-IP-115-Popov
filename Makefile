@@ -11,7 +11,7 @@ $(OBJ)area.o:
 $(OBJ)geometry.o:
 	$(CC) $(CFLAGS) -c $(CPPFLAGS) -o $(OBJ)geometry.o $(SRC)geometry-dir/geometry.c
 clean:
-	rm bin/geometry
+	rm bin/geometry obj/*.o obj/*.d
 run:
 	./bin/geometry
 -include geometry.d area.d
