@@ -1,4 +1,6 @@
 *.txt
+*.o
+*.d
 *.swp
 geometry
 hello.c
