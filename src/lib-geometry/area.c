@@ -3,12 +3,9 @@
 
 float areaCircle(int r)
 {
-    return r*r*3.1415926535;
+	return r*r*3.1415926535;
 }
-float areaTriangle(int a, int b, int c)
+float areaTriangle(int ax, int ay, int bx, int by, int cx, int cy)
 {
-    float p;
-    p = (a+b+c)/2;
-    return p*(p-a)*(p-b)*(p-c);
+	return 0.5*(ax-cx)*(by-cy)-(bx-cx)*(ay-cy);
 }
-
