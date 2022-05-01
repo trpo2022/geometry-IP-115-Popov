@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Check codestyle
-        run: clang-format -i --verbose src/geometry-dir/geometry.c src/lib-geometry/area.c src/lib-geometry/area.h
+        run: clang-format -i --verbose src/geometry-dir/geometry.c src/lib-geometry/area.c src/lib-geometry/area.h src/lib-geometry/perimeter.c src/lib-geometry/perimeter.h
 
       - name: Build application
         run: make
