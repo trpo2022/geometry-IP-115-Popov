@@ -1,17 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
 #include "../lib-geometry/area.h"
 #include "../lib-geometry/perimeter.h"
-
+#include "../lib-geometry/touchCircles.h"
 
 int main()
 {
-
-
 	float rezArea, rezPerimeter;
-
 	char name[50];
 	printf("Enter shape name (circle or triangle): ");
 	scanf("%s", name);
@@ -24,13 +22,44 @@ int main()
 		scanf("%d", &x);
 		scanf("%d", &y);
 		scanf("%d", &r);
-		if (r < 0)
-		{
+		if (r < 0) {
 			printf("Incorrect data.");
 			return 0;
 		}
 		rezArea = areaCircle(r);
 		rezPerimeter = perimeterCircle(r);
+		printf("area is: %f\nperimeter is: %f\n", rezArea, rezPerimeter);
+
+		char name1[50];
+		printf("Enter shape name (circle): ");
+		scanf("%s", name1);
+		name1[0] = toupper(name1[0]);
+
+		if (!(strcmp(name1, "Circle")))
+		{
+			int x1, y1, r1;
+			printf("Enter (x y radius): ");
+			scanf("%d", &x1);
+			scanf("%d", &y1);
+			scanf("%d", &r1);
+			if (r1 < 0) {
+				printf("Incorrect data.");
+				return 0;
+			}
+			rezArea = areaCircle(r1);
+			rezPerimeter = perimeterCircle(r1);
+			printf("area is: %f\nperimeter is: %f\n", rezArea, rezPerimeter);
+
+			if (touchCircles(x, y, r, x1, y1, r1))
+			{
+				printf("Circles intersect");
+			} else {
+				printf("Circles don't overlap");
+			}
+		} else {
+			printf("Incorrect data.");
+			return 0;
+		}
 	}
 	else if (!(strcmp(name, "Triangle")))
 	{
@@ -44,15 +73,16 @@ int main()
 		scanf("%d", &cy);
 		rezArea = areaTriangle(ax, ay, bx, by, cx, cy);
 		rezPerimeter = perimeterTriangle(ax, ay, bx, by, cx, cy);
-		if (rezArea <= 0) {
+		if (rezArea <= 0.0) {
 			printf("Incorrect data.");
 			return 0;
+		} else {
+			printf("area is: %f\nperimeter is: %f\n", rezArea, rezPerimeter);
 		}
 	}
 	else {
 		printf("Incorrect data.");
 		return 0;
 	}
-	printf("area is: %f\n perimeter is: %f", rezArea, rezPerimeter);
 	return 0;
 }
