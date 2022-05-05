@@ -1,47 +1,47 @@
 #include <stdlib.h>
-#include "../src/lib-geometry/area.h"
-#include "../src/lib-geometry/perimeter.h"
-#include "../src/lib-geometry/touchCircles.h"
-#include "../thirdparty/ctest.h"
+#include <libgeo/area.h>
+#include <libgeo/perimeter.h>
+#include <libgeo/touchCircles.h>
+#include <ctest.h>
 
-CTEST(area, circle)
+CTEST(geometry_suite, circle_1)
 {
 	   const int r = 3;
 
-	   const int result = (int)areaCircle(r);
+	   const int result = areaCircle(r);
 	   const int expected = 28;
 
 	   ASSERT_EQUAL(expected, result);
 }
-CTEST(area, triangle)
+CTEST(geometry_suite, triangle_1)
 {
 	const int ax = 0,ay = 0,bx = 4,by = 0,cx = 0,cy = 4;
 
-	const int result = (int)areaTriangle(ax,ay, bx,by, cx,cy);
-	const int expected = 8;
+	const int result = areaTriangle(ax,ay, bx,by, cx,cy);
+	const int expected = 16;
 
 	ASSERT_EQUAL(expected, result); 
 }
-CTEST(perimeter, circle)
+CTEST(geometry_suite, circle_2)
 {       
 	const int r = 3;
 
-	const int result = (int)perimeterCircle(r);
+	const int result = perimeterCircle(r);
 	const int expected = 18;
 
 	ASSERT_EQUAL(expected, result);
 }
-CTEST(perimeter,  triangle)
+CTEST(geometry_suite,  triangle_2)
 {       
 	const int ax = 0,ay = 0,bx = 4,by = 0,cx = 0,cy = 3;
 
-	const int result = (int)perimeterTriangle(ax,ay, bx,by, cx,cy);
+	const int result = perimeterTriangle(ax,ay, bx,by, cx,cy);
 	const int expected = 12;
 
 	ASSERT_EQUAL(expected, result);
 
 }
-CTEST(touch, circle)
+CTEST(geometry_suite, circle_3)
 {       
 	const int x1 = 0, y1 = 0, r1 = 10, x2 = 0, y2 = 5, r2 = 10;
 
