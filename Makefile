@@ -1,27 +1,62 @@
-CFLAGS = -Wall -Wextra -Werror -I../src/lib-geometry
-CPPFLAGS = -MMD
 CC = gcc
-OBJ = obj/
-SRC = src/
-BIN = bin/
-all: $(OBJ)geometry.o $(OBJ)libarea.a
-	$(CC) $(CFLAGS) -o $(BIN)geometry $(OBJ)geometry.o $(OBJ)libarea.a -lm
-$(OBJ)area.o:
-	$(CC) $(CFLAGS) -c $(CPPFLAGS) -o $(OBJ)area.o $(SRC)lib-geometry/area.c
-$(OBJ)perimeter.o:
-	$(CC) $(CFLAGS) -c $(CPPFLAGS) -o $(OBJ)perimeter.o $(SRC)lib-geometry/perimeter.c
-$(OBJ)touchCircles.o:
-	$(CC) $(CFLAGS) -c $(CPPFLAGS) -o $(OBJ)touchCircles.o $(SRC)lib-geometry/touchCircles.c
-$(OBJ)libarea.a: $(OBJ)area.o $(OBJ)perimeter.o $(OBJ)touchCircles.o
-	ar rcs $(OBJ)libarea.a $(OBJ)area.o $(OBJ)perimeter.o $(OBJ)touchCircles.o
-$(OBJ)geometry.o:
-	$(CC) $(CFLAGS) -c $(CPPFLAGS) -o $(OBJ)geometry.o $(SRC)geometry-dir/geometry.c
-$(OBJ)test.o:
-	$(CC) $(CFLAGS) -c $(CPPFLAGS) -o $(OBJ)test.o test/geometryTest.c
-test: $(OBJ)libarea.a $(OBJ)test.o
-	$(CC) $(CFLAGS) -o $(BIN)test $(OBJ)test.o $(OBJ)libarea.a -lm
+
+APP_NAME = geometry
+LIB_NAME = libgeo
+TEST_NAME = test
+
+CFLAGS = -Wall -Wextra -Werror
+CPPFLAGS = -I src -MP -MMD
+LDFLAGS =
+LDLIBS =
+
+BIN_DIR = bin
+OBJ_DIR = obj
+SRC_DIR = src
+TEST_DIR = test
+
+APP_PATH = bin/geometry
+TEST_PATH = bin/test
+LIB_PATH = obj/src/libgeo/libgeo.a
+
+SRC_EXT = c
+
+APP_SOURCES = $(shell find src/geometry -name '*.$(SRC_EXT)')
+APP_OBJECTS = $(APP_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
+
+TEST_SOURCES = $(shell find test -name '*.$(SRC_EXT)')
+TEST_OBJECTS = $(TEST_SOURCES:test/%.c=obj/test/%.o)
+
+LIB_SOURCES = $(shell find $(SRC_DIR)/$(LIB_NAME) -name '*.$(SRC_EXT)')
+LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
+
+DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) $(TEST_OBJECTS:.o=.d)
+
+.PHONY: test clean
+
+all: bin/geometry
+
+-include $(DEPS)
+
+$(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS) -lm
+
+$(LIB_PATH): $(LIB_OBJECTS)
+	ar rcs $@ $^
+
+$(OBJ_DIR)/%.o: %.c
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) -I thirdparty $< -o $@ -lm
+
+	
+test: $(TEST_PATH)
+
+
+-include $(DEPS)
+
+$(TEST_PATH): $(TEST_OBJECTS) $(LIB_PATH)
+	$(CC) $(CFLAGS) -I thirdparty $^ -o $@ $(LDFLAGS) $(LDLIBS) -lm
+
+
 clean:
-	rm bin/geometry obj/*.o obj/*.d obj/*.a 
-run:
-	./bin/geometry
--include geometry.d area.d perimeter.d touchCircles.d
+	$(RM) $(APP_PATH) $(TEST_PATH) $(LIB_PATH)
+	find $(OBJ_DIR) -name '*.o' -exec $(RM) '{}' \;
+	find $(OBJ_DIR) -name '*.d' -exec $(RM) '{}' \;
