@@ -16,6 +16,10 @@ $(OBJ)libarea.a: $(OBJ)area.o $(OBJ)perimeter.o $(OBJ)touchCircles.o
 	ar rcs $(OBJ)libarea.a $(OBJ)area.o $(OBJ)perimeter.o $(OBJ)touchCircles.o
 $(OBJ)geometry.o:
 	$(CC) $(CFLAGS) -c $(CPPFLAGS) -o $(OBJ)geometry.o $(SRC)geometry-dir/geometry.c
+$(OBJ)test.o:
+	$(CC) $(CFLAGS) -c $(CPPFLAGS) -o $(OBJ)test.o test/geometryTest.c
+test: $(OBJ)libarea.a $(OBJ)test.o
+	$(CC) $(CFLAGS) -o $(BIN)test $(OBJ)test.o $(OBJ)libarea.a -lm
 clean:
 	rm bin/geometry obj/*.o obj/*.d obj/*.a 
 run:
